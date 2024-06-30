@@ -11,13 +11,15 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm! : FormGroup;
+  loginData : any;
+  signUpData : any = [];
   constructor(
     private router : Router,
   )
   { 
     this.loginForm = new FormGroup({
-      email : new FormControl('',Validators.required),
-      pwd : new FormControl('', [Validators.required,Validators.maxLength(5)])
+      email : new FormControl('testing@gmail.com',Validators.required),
+      pwd : new FormControl('12345', [Validators.required,Validators.maxLength(5)])
     })
   }
 
@@ -26,8 +28,15 @@ export class LoginComponent {
   }
 
   onLogin(){
-    console.log(this.loginForm.value)
+    this.loginData = this.loginForm.value
     localStorage.setItem('loginCreds',JSON.stringify(this.loginForm.value))
+    this.signUpData = JSON.parse(localStorage.getItem('userData') as any)
+    console.log(this.signUpData,typeof this.signUpData);
+    this.signUpData.forEach((authObj : any)=>{
+      if(authObj.pwd == this.loginData.pwd && authObj.email == this.loginData.email){
+        this.router.navigateByUrl('home');
+      }
+    })
   }
 
 }
