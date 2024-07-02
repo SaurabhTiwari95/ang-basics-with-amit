@@ -16,7 +16,9 @@ export class HomeComponent implements OnInit {
   constructor(
     private global: GlobalService,
   ) { }
-
+/*
+  Make a Input with city name and call the city on the basis of names
+*/ 
   ngOnInit(): void {
     /*Now subscribing the search func data here using observable*/
     this.global.sub.subscribe((data) => {
@@ -37,26 +39,46 @@ export class HomeComponent implements OnInit {
       tap() is used instead of map() when we want to performs any other 
       operation(like calling a function etc.) before subscribing the data using observable
     */
-    this.global.getNewAPI().pipe(map((data: any) => {
+    this.getDailyNews(1);
+  }
+
+  /*New API call Starts*/
+
+  getDailyNews(pageNo: any) {
+    this.global.getNewAPI(pageNo).pipe(map((data: any) => {
+      this.apiData = [];
+      this.newData = [];
       data.articles.forEach((articleData: any) => {
         articleData.publishedAt = `${new Date(articleData.publishedAt).getFullYear().toString()} - ${new Date(articleData.publishedAt).getMonth() + 1} - ${new Date(articleData.publishedAt).getDate()}`;
       })
       return data.articles
     })).subscribe((data: any) => {
-      // this.global.getNewAPI().pipe(map((data: any) => data.articles)).subscribe((data: any) => {
-      // console.log(data.articles)
       console.log(data)
-      // this.newData = data.articles
       this.apiData = data
       this.newData = Object.assign([], this.apiData);
     }, (error: any) => {
       console.log(error)
     });
   }
-  // ngAfterViewInit(): void {
-  //   this.global.sub.subscribe((data) => {
-  //     console.log(data);
+  /*New API call Ends*/
 
-  //   })
-  // }
+
+  previousPage() {
+    if (this.global.pageNumber > 0) {
+      this.global.pageNumber = this.global.pageNumber - 1;
+      this.getDailyNews(this.global.pageNumber);
+    }
+    else {
+      alert("End of Page !!");
+    }
+  }
+  nextPage() {
+    this.global.pageNumber = this.global.pageNumber + 1;
+    this.getDailyNews(this.global.pageNumber);
+
+  }
+
+
+
+
 }
