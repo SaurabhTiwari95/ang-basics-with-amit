@@ -1,27 +1,40 @@
 <div class="container">
-    @for (item of newData; track item.author + item.title) {
-        <div class="col-md-3 card-main">
-            <h4>{{item.title}}</h4>
-            <p>{{item.description.substring(0, 200)}}</p>
-            <h5>{{item.publishedAt}}</h5>
-            <div class="card">
-              <img
-                class="card-img-top"
-                src={{item.urlToImage}}
-                alt="Card image"
-                style="width: 50%;height: 20%;"
-              />
-              <div class="card-body">
-                <h6 class="card-title">{{item.author}}</h6>
-                <p class="card-text">
-                  {{item.content.substring(0, 400).split("[")[0]}}
-                </p>
-                <!-- <a href="#" class="btn btn-primary">See Profile</a> -->
-              </div>
-            </div>
+  <div class="row container-fluid">
+    <div class="col-md-12">
+      @for (item of newData; track item.author + item.title) {
+      <div class="col-md-3 card-main">
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.description.substring(0, 150) }}</p>
+        <h5>{{ item.publishedAt }}</h5>
+        <div class="card">
+          <img
+            class="card-img-top"
+            src="{{ item.urlToImage }}"
+            alt="Card image"
+            style="width: 50%; height: 20%"
+          />
+          <div class="card-body">
+            <h6 class="card-title">{{ item.author }}</h6>
+            <p class="card-text">
+              {{ item.content.substring(0, 300).split("[")[0] }}
+            </p>
+            <!-- <a href="#" class="btn btn-primary">See Profile</a> -->
           </div>
-    } @empty {
-    <li>There are no items.</li>
-    }
-    
+        </div>
+      </div>
+      } @empty {
+      <li>There are no items.</li>
+      }
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-2">
+        <button class="btn btn-primary" (click)="previousPage()">Prev</button>
+      </div>
+      <div class="col-md-offset-8">
+        <button class="btn btn-primary" (click)="nextPage()">Next</button>
+      </div>
+    </div>
+  </div>
 </div>
