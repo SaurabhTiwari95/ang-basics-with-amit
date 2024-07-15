@@ -1,1 +1,69 @@
-<p>weather works!</p>
+<div class="panel-body">
+  <form
+    id="signupform"
+    class="form-horizontal"
+    role="form"
+    [formGroup]="weatherData"
+  >
+    <div id="signupalert" style="display: none" class="alert alert-danger">
+      <p>Error:</p>
+      <span></span>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          name="city"
+          placeholder="Enter City Name"
+          formControlName="city"
+        />
+      </div>
+      <!-- Button -->
+      <div class="col-md-3">
+        <button
+          id="btn-signup"
+          type="button"
+          (click)="getCityWeatherData()"
+          class="btn btn-info"
+        >
+          <i class="icon-hand-right"></i> Click !!
+        </button>
+      </div>
+    </div>
+    <div class="form-group">
+      @if (weatherApiData.length) { @for (item of weatherApiData; track
+      item.name) {
+      <div class="col-md-4">
+        <div class="card bg-dark text-white" style="border-radius: 40px">
+          <div class="bg-image" style="border-radius: 35px">
+            <img
+              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/draw1.webp"
+              class="card-img"
+              style="width: 300px; height: 300px"
+              alt="weather"
+            />
+            <div
+              class="mask"
+              style="background-color: rgba(190, 216, 232, 0.5)"
+            ></div>
+          </div>
+          <div class="card-img-overlay text-dark p-5">
+            <h4 class="mb-0">{{ item.name }}</h4>
+            <p class="display-2 my-3">{{ item.main.temp }}</p>
+            <p class="mb-2">
+              Feels Like:
+              <strong>{{ item.main.feels_like }}</strong>
+            </p>
+            <h5>{{ item.weather.description }}</h5>
+          </div>
+        </div>
+      </div>
+      } @empty {
+      <li>There are no items.</li>
+      } }
+    </div>
+  </form>
+</div>
+<!-- Now write function to convert the temperature in celsius -->
